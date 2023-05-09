@@ -1,9 +1,17 @@
 # Front-end Project
+by Juho Simojoki
+
+## Description
+This project is an assignment for Integrify Finland's Full Stack Academy (Microsoft stack). It is a main project for the frontend module and it's it uses many pacjages and technologies used previously.
 
 ![React](https://img.shields.io/badge/React-v.18-blue)
 ![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
 ![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
 ![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
+
+Along the ones mentioned above, this project uses at least next packages:
+- axios
+- Material UI
 
 This project requires implementation of TypeScript and SASS.
 

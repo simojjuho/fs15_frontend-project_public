@@ -14,7 +14,7 @@ Create e-commerce website
         3. sortProducts (by price)
         4. createProduct (for admin only)
         5. updateProduct (for admin only)
-        6. deleteProduct (for admin only)
+        6. removeProduct (for admin only)
     - userReducer
         1. registerUser
         2. loginUser

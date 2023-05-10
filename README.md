@@ -10,8 +10,24 @@ This project is an assignment for Integrify Finland's Full Stack Academy (Micros
 ![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
 
 Along the ones mentioned above, this project uses at least next packages:
-- axios
 - Material UI
+- @reduxjs/toolkit": "^1.9.3
+- @testing-library/jest-dom": "^5.16.5
+- @testing-library/react": "^13.4.0
+- @testing-library/user-event": "^14.4.3
+- @types/jest": "^27.5.2
+- @types/node": "^17.0.45
+- @types/react": "^18.0.33
+- @types/react-dom": "^18.0.11
+- axios": "^1.4.0
+- msw": "^1.2.1
+- react": "^18.2.0
+- react-dom": "^18.2.0
+- react-redux": "^8.0.5
+- react-scripts": "5.0.1
+- sass": "^1.61.0
+- typescript": "^4.9.5
+- web-vitals": "^2.1.4
 
 This project requires implementation of TypeScript and SASS.
 

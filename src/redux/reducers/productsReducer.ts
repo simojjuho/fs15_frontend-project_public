@@ -21,7 +21,7 @@ export const getAllProducts = createAsyncThunk(
             return result.data
         } catch (e: unknown) {
             let error = e as AxiosError
-            return error.message
+            return error
         }
     }
 )
@@ -51,18 +51,32 @@ const productsSlice = createSlice({
                 ...state,
                 products: state.products.map(product => product.id !== action.payload.id ? product : action.payload)
             }
+        },
+        sortProductsByPrice: (state, action: PayloadAction<string>) => {
+            if (action.payload === 'desc') state.products.sort((a, b) => b.price-a.price)
+            if (action.payload === 'asc') state.products.sort((a, b) => a.price-b.price)
         }
     },
     extraReducers: (build) => {
         build
             .addCase(getAllProducts.fulfilled, (state, action) => {
-
+                if(action.payload instanceof AxiosError) {
+                    state.error = action.payload.message
+                } else {
+                    state.products = action.payload
+                }
+                state.loading = false
             })
-            .addCase(getAllProducts.pending, (state, action) => {})
-            .addCase(getAllProducts.rejected, (state, action) => {})
+            .addCase(getAllProducts.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(getAllProducts.rejected, (state, action) => {
+                state.loading = false
+                state.error = 'Cannot get data from the server'
+            })
     }
 })
 
-export const { createProduct, removeProduct, emptyProductsReducer, updateProduct } = productsSlice.actions
+export const { createProduct, removeProduct, emptyProductsReducer, updateProduct, sortProductsByPrice } = productsSlice.actions
 const productsReducer = productsSlice.reducer
 export default productsReducer

@@ -22,6 +22,9 @@ Create e-commerce website
         1. addProduct
         2. removeProduct
         3. updateProduct
+- Testing plan
+    - Let's try some TDD!
+    - Test that all reducer methods function as should
+    - Also must test, that only admin can use the create, update and delete product methods
 - If time:
     - context api to switch theme
-    - unit testing for reducers !important

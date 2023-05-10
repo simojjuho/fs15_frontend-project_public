@@ -13,7 +13,7 @@ interface Product {
     updateAt: string
 }
 <!-- Initial plan -->
-interface Customer {
+interface User {
     id: string
     username: string
     passwordHash: string
@@ -24,14 +24,17 @@ interface Customer {
     city: string
     country: string
     phone: string
+    role: Role
 }
+    
+type Role = 'admin' | 'regular'
 <!-- Initial plan -->
-interface Cart {
+interface ShoppingCart {
     id: string
     creationAt: string
     updateAt: string
     userId: number
-    products: Product[]
+    productsInCart: Product[]
 }
 <!-- in case of single purchase page is made -->
 interface Purchase{

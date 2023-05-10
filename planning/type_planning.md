@@ -16,7 +16,8 @@ interface Product {
 interface User {
     id: string
     username: string
-    passwordHash: string
+    <!-- If this was not only frontend project, passwords would not be saved like this. -->
+    password: string
     description: string
     address_1: string
     address_2: string

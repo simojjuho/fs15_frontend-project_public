@@ -10,10 +10,9 @@ import SingleProductPage from './pages/SingleProductPage'
 import UserProfilePage from './pages/UserProfilePage'
 import ShoppingCartPage from './pages/ShoppingCartPage'
 import './style/style.scss'
-import globalTheme from './themes/globalTheme'
 import customTheme from './themes/globalTheme'
+import ColorThemeContext from './utils/ColorThemeContext'
 
-type ColorThemeChange = () => void
 
 const router = createBrowserRouter([
   {
@@ -47,7 +46,7 @@ const router = createBrowserRouter([
 
 const App = () => {
   const [mode, setMode] = useState<PaletteMode>('light')
-  const ColorThemeContext = createContext<ColorThemeChange | null>(null)
+  
   const colorMode = () => setMode((prevMode: PaletteMode) => 
         prevMode === 'light' ? 'dark' : 'light'
         )

@@ -6,7 +6,8 @@ const customTheme = (mode: PaletteMode) => ({
         fontFamily: 'Poppins',
         h1: {
             fontFamily: 'Poppins-Bold, sans-serif',
-            fontSize: '4em'
+            fontSize: '4em',
+            fontWeight: '900'
             
         },
         h2: {
@@ -23,7 +24,7 @@ const customTheme = (mode: PaletteMode) => ({
                 contrastText: '#FFF'
             },
             secondary: {
-                main: '#0b0b0b',
+                main: '#FFF',
                 contrastText: '#FFF'
             }
         }

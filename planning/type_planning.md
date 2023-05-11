@@ -35,7 +35,11 @@ interface ShoppingCart {
     creationAt: string
     updateAt: string
     userId: number
-    productsInCart: Product[]
+    productsInCart: ProductsInCart[]
+}
+interface ProductsInCart {
+    amount: number
+    product: Product
 }
 <!-- in case of single purchase page is made -->
 interface Purchase{

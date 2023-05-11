@@ -1,10 +1,10 @@
-import Product from "./Product"
+import ProductsInCart from "./ProductsInCart"
 
 interface ShoppingCart {
     id: string
     creationAt: string
     updateAt: string
-    productsInCart: Product[]
+    productsInCart: ProductsInCart[]
 }
 
 export default ShoppingCart

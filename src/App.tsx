@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { createContext, useMemo, useState } from 'react'
+import { createTheme, PaletteMode, ThemeProvider } from '@mui/material'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
 import HomePage from './pages/HomePage'
 import ErrorPage from './pages/ErrorPage'
 import LandingPage from './pages/LandingPage'
@@ -7,6 +9,11 @@ import ProductsPage from './pages/ProductsPage'
 import SingleProductPage from './pages/SingleProductPage'
 import UserProfilePage from './pages/UserProfilePage'
 import ShoppingCartPage from './pages/ShoppingCartPage'
+import './style/style.scss'
+import globalTheme from './themes/globalTheme'
+import customTheme from './themes/globalTheme'
+
+type ColorThemeChange = () => void
 
 const router = createBrowserRouter([
   {
@@ -39,8 +46,19 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
+  const [mode, setMode] = useState<PaletteMode>('light')
+  const ColorThemeContext = createContext<ColorThemeChange | null>(null)
+  const colorMode = () => setMode((prevMode: PaletteMode) => 
+        prevMode === 'light' ? 'dark' : 'light'
+        )
+
+  const theme = useMemo(() => createTheme(customTheme(mode)),[mode])
   return (
-    <RouterProvider router={router}/>
+    <ColorThemeContext.Provider value={colorMode} >
+      <ThemeProvider theme={theme}>
+        <RouterProvider  router={router}/>
+      </ThemeProvider>
+    </ColorThemeContext.Provider>
   )
 }
 

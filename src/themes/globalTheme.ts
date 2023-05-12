@@ -3,15 +3,23 @@ import { PaletteMode } from "@mui/material"
 
 const customTheme = (mode: PaletteMode) => ({
     typography: {
-        fontFamily: 'Poppins',
+        fontFamily: 'Poppins, sans-serif',
+        fontWeight: '900',
+        body1: {
+            fontFamily: 'Poppins, sans-serif',
+        },
+        body2: {
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: '600'
+        },
         h1: {
-            fontFamily: 'Poppins-Bold, sans-serif',
+            fontFamily: 'Poppins, sans-serif',
             fontSize: '4em',
             fontWeight: '900'
             
         },
         h2: {
-            fontFamily: 'Poppins-Bold'
+            fontFamily: 'Poppins'
         },
     },
     palette: {
@@ -24,19 +32,19 @@ const customTheme = (mode: PaletteMode) => ({
                 contrastText: '#FFF'
             },
             secondary: {
-                main: '#FFF',
+                main: '#e1dcd7',
                 contrastText: '#FFF'
             }
         }
         : {
             primary: {
                 light:'#2e5952',
-                main: '#04201c',
-                contrastText: '#dedede'
+                main: '#121212',
         },
             secondary: {
-                main: '#0b0b0b',
-                contrastText: '#dedede'
+                main: '#0b1b2B',
+                light: '#074a41',
+                contrastText: '#FFF'
             }
         })
     },

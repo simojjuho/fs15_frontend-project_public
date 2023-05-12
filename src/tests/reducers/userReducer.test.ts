@@ -1,5 +1,5 @@
-import userReducer, { loginUser, registerUser } from "../redux/reducers/userReducer"
-import singleRegularUser from "./data/regularUser"
+import userReducer, { loginUser, registerUser } from "../../redux/reducers/userReducer"
+import singleRegularUser from "../data/regularUser"
 
 describe('testing userReducer', () => {
     test('registering enew users succesfully', () => {

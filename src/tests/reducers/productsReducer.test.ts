@@ -1,8 +1,8 @@
-import productsReducer, { createProduct, removeProduct, emptyProductsReducer, getAllProducts, sortProductsByPrice } from "../redux/reducers/productsReducer"
-import singleProduct from "./data/singleInitialProduct"
-import initialProducts from "./data/initialProduct"
-import store from "./shared/store"
-import productServer from "./servers/productsServer"
+import productsReducer, { createProduct, removeProduct, emptyProductsReducer, getAllProducts, sortProductsByPrice } from "../../redux/reducers/productsReducer"
+import singleProduct from "../data/singleInitialProduct"
+import initialProducts from "../data/initialProduct"
+import store from "../shared/store"
+import productServer from "../servers/productsServer"
 
 beforeAll(() => {
     productServer.listen()

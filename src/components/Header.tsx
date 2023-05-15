@@ -20,13 +20,13 @@ const Header = () => {
         <AppBar
             sx={{
             height: '80px',
-            backgroundColor: 'primary.dark',
+            backgroundColor: 'secondary.main',
             }}
         >
             <Toolbar sx={{
             justifyContent: 'space-between'
             }}>
-            <Link variant='body2' color={'secondary.contrastText'} component={RouterLink} to='/' underline="none">
+            <Link variant='body2' component={RouterLink} to='/' underline="none">
                 <Typography
                     variant='h1'
                 >
@@ -35,35 +35,39 @@ const Header = () => {
             </Link>
             <Box role='navigation' sx={{
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'center',    
                 gap: '1em'
             }} >          
-                <Link variant='body2' color={'secondary.contrastText'} component={RouterLink} to='/' underline="none">
+                <Link variant='body2' component={RouterLink} to='/' underline="none">
                     HOME
                 </Link>
-                <Link variant='body2' color={'secondary.contrastText'} component={RouterLink} to='/products' underline="none">
+                <Link variant='body2' component={RouterLink} to='/products' underline="none">
                     PRODUCTS
                 </Link>
-                <IconButton aria-label='shopping cart' sx={{
-                    '&::after': {
-                        content: `"${shoppngCart.productsInCart.length}"`,
-                        fontSize: '0.4em',
+                <Box sx={{position: 'relative'}}>
+                    <IconButton aria-label='link to shopping cart'>
+                        <ShoppingCartIcon/>
+                    </IconButton>
+                    <Box sx={{
+                        fontSize: '0.6em',
                         fontWeight: '700',
                         backgroundColor: 'orange',
-                        display: 'block',
-                        width: '1em',
+                        width: '1.6em',
+                        height: '1.6em',
                         borderRadius: '50%',
                         position: 'absolute',
-                        top: '20%',
-                    }
-                }}>
-                    <ShoppingCartIcon color='secondary'/>
-                </IconButton>
+                        top: '10%',
+                        right: '20%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>{shoppngCart.productsInCart.length}</Box>
+                </Box>
                 <IconButton onClick={themeClickHandler} aria-label='color theme switch'>
-                    {theme.palette.mode === 'light' ? <DarkModeIcon color='secondary' /> : <LightModeIcon />}
+                    {theme.palette.mode === 'light' ? <DarkModeIcon  /> : <LightModeIcon />}
                 </IconButton>
-                <IconButton >
-                    <AccountCircleIcon color='secondary'/>
+                <IconButton>
+                    <AccountCircleIcon />
                 </IconButton>
             </Box>
             </Toolbar>

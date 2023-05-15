@@ -21,19 +21,21 @@ const customTheme = (mode: PaletteMode) => ({
         h2: {
             fontFamily: 'Poppins'
         },
+        h3: {
+            fontFamily: 'Poppins',
+            fontSize: '1.2em'
+        }
     },
     palette: {
         mode,
         ...(mode === 'light'
         ? {
             primary: {
-                light:'#e1dcd7',
-                main: '#074a41',
-                contrastText: '#FFF'
+                main: '#FEFEFE',
+                dark: '#e1dcd7'
             },
             secondary: {
-                main: '#e1dcd7',
-                contrastText: '#FFF'
+                main: '#074a41',
             }
         }
         : {
@@ -43,8 +45,7 @@ const customTheme = (mode: PaletteMode) => ({
         },
             secondary: {
                 main: '#0b1b2B',
-                light: '#074a41',
-                contrastText: '#FFF'
+
             }
         })
     },

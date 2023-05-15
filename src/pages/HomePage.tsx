@@ -7,7 +7,7 @@ import Header from '../components/Header';
 
 const HomePage = () => {
   return (
-    <Box sx={{position: 'relative',minHeight: '100vh', backgroundColor: 'secondary.main' }}>
+    <Box sx={{position: 'relative',minHeight: '100vh', backgroundColor: 'primary.main' }}>
       <Header />
       <Outlet />
       <Footer />

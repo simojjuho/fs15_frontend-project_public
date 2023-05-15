@@ -4,8 +4,10 @@ import { AppBar, Toolbar, Typography, Box, IconButton, useTheme, Link } from '@m
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import ColorThemeContext from '../utils/ColorThemeContext'
+import useAppSelector from '../hooks/useAppSelector'
 
 const Header = () => {
     const colorContext = useContext(ColorThemeContext)
@@ -13,6 +15,7 @@ const Header = () => {
     const themeClickHandler = () => {
         if(colorContext) colorContext()
     }
+    const shoppngCart = useAppSelector(state => state.shoppingCartReducer)
     return (
         <AppBar
             sx={{
@@ -41,10 +44,25 @@ const Header = () => {
                 <Link variant='body2' color={'secondary.contrastText'} component={RouterLink} to='/products' underline="none">
                     PRODUCTS
                 </Link>
+                <IconButton aria-label='shopping cart' sx={{
+                    '&::after': {
+                        content: `"${shoppngCart.productsInCart.length}"`,
+                        fontSize: '0.4em',
+                        fontWeight: '700',
+                        backgroundColor: 'orange',
+                        display: 'block',
+                        width: '1em',
+                        borderRadius: '50%',
+                        position: 'absolute',
+                        top: '20%',
+                    }
+                }}>
+                    <ShoppingCartIcon color='secondary'/>
+                </IconButton>
                 <IconButton onClick={themeClickHandler} aria-label='color theme switch'>
                     {theme.palette.mode === 'light' ? <DarkModeIcon color='secondary' /> : <LightModeIcon />}
                 </IconButton>
-                <IconButton>
+                <IconButton >
                     <AccountCircleIcon color='secondary'/>
                 </IconButton>
             </Box>

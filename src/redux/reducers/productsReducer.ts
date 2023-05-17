@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios'
 
 import Product from "../../types/Product";
 import ProductWithoutId from "../../types/NewProduct";
+import ProductPropertiesForUpdate from "../../types/ProductPropertiesForUpdate";
 
 const initialState: {
     loading: boolean,
@@ -50,6 +51,18 @@ export const removeProduct = createAsyncThunk(
         }
     }
 )
+export const updateProduct = createAsyncThunk(
+    'updateProduct',
+    async (newProps: ProductPropertiesForUpdate): Promise<Product | AxiosError> =>  {
+        try {
+            const { data } = await axios.put<Product>(`https://api.escuelajs.co/api/v1/products/${newProps.id}`, newProps.data)
+            return data
+        } catch (e) {
+            let error = e as AxiosError
+            return error
+        }
+    }
+)
 const productsSlice = createSlice({
     name: 'productsReducer',
     initialState: initialState,
@@ -58,12 +71,6 @@ const productsSlice = createSlice({
             return {
                 ...state,
                 products: []
-            }
-        },
-        updateProduct: (state, action: PayloadAction<Product>) => {
-            return {
-                ...state,
-                products: state.products.map(product => product.id !== action.payload.id ? product : action.payload)
             }
         },
         sortProductsByPrice: (state, action: PayloadAction<string>) => {
@@ -123,9 +130,25 @@ const productsSlice = createSlice({
                 state.loading = false
                 state.error = 'Could not remove the product'
             })
+            .addCase(updateProduct.fulfilled, (state, action) => {
+                if(action.payload instanceof AxiosError) {
+                    state.error = action.payload.message
+                } else {
+                    const product = action.payload
+                    state.products = state.products.map(item => item.id === product.id ? product : item)
+                }
+                state.loading = false
+            })
+            .addCase(updateProduct.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(updateProduct.rejected, (state, action) => {
+                state.loading = false
+                state.error = 'Could not update the product'
+            })
         }
 })
 
-export const { emptyProductsReducer, updateProduct, sortProductsByPrice } = productsSlice.actions
+export const { emptyProductsReducer, sortProductsByPrice } = productsSlice.actions
 const productsReducer = productsSlice.reducer
 export default productsReducer

@@ -1,8 +1,9 @@
-import { createProduct, removeProduct, getAllProducts, sortProductsByPrice } from "../../redux/reducers/productsReducer"
+import { createProduct, removeProduct, getAllProducts, sortProductsByPrice, updateProduct } from "../../redux/reducers/productsReducer"
 import singleProduct from "../data/singleInitialProduct"
 import initialProducts from "../data/initialNewProducts"
 import store from "../shared/store"
 import productServer from "../servers/productsServer"
+import ProductPropertiesForUpdate from "../../types/ProductPropertiesForUpdate"
 
 beforeAll(() => {
     productServer.listen({
@@ -13,11 +14,10 @@ afterAll(() => {
     productServer.close()
 })
 beforeEach(async () => {
-    store.dispatch(getAllProducts())
+    await store.dispatch(getAllProducts())
 })
 describe('testing productsReducer', () => {
     test('state is initialized and fetching products functions properly', async () => {
-        await store.dispatch(getAllProducts())
         const initializedState = store.getState().productsReducer
         expect(initializedState.loading).toBe(false)
         expect(initializedState.error).toBeFalsy()
@@ -35,11 +35,20 @@ describe('testing productsReducer', () => {
         expect(store.getState().productsReducer.products).toHaveLength(2)
     })
     test('products are sorted by price ascending', async () => {
-        await store.dispatch(getAllProducts())
         store.dispatch(sortProductsByPrice('asc'))
         expect(store.getState().productsReducer.products[0].title).toBe('Reebok sneakers')
         expect(store.getState().productsReducer.products[1].title).toBe('Nike sneakers')
         expect(store.getState().productsReducer.products[2].title).toBe('Adidas sneakers')
+    })
+    test('updating product succesfully', async () => {
+        const updates: ProductPropertiesForUpdate = {
+            id: 1,
+            data: {
+                title: 'Under Armour sneakers'
+            }
+        }
+        await store.dispatch(updateProduct(updates))
+        expect(store.getState().productsReducer.products[0].title).toBe('Under Armour sneakers')
     })
 })
 export {}

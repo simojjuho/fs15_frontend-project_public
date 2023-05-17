@@ -9,3 +9,4 @@ const singleProduct: NewProduct = {
 }
 
 export default singleProduct
+

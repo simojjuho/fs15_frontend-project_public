@@ -24,17 +24,18 @@ describe('testing productsReducer', () => {
         expect(initializedState.products).toHaveLength(3)
     })
     //TODO: This needs to be fixed still
- /*    test('creating new product entry', async () => {
+    test('creating new product entry', async () => {
         const newProduct = await store.dispatch(createProduct(singleProduct))
         expect(store.getState().productsReducer.products).toHaveLength(4)
         expect(newProduct.meta.arg.title).toBe('Puma sneakers')
-    }) */
-    test('removing a product is succesful', () => {
+    })
+    test('removing a product is succesful', async () => {
         expect(store.getState().productsReducer.products).toHaveLength(3)
-        store.dispatch(removeProduct(2))
+        await store.dispatch(removeProduct(2))
         expect(store.getState().productsReducer.products).toHaveLength(2)
     })
-    test('products are sorted by price ascending', () => {
+    test('products are sorted by price ascending', async () => {
+        await store.dispatch(getAllProducts())
         store.dispatch(sortProductsByPrice('asc'))
         expect(store.getState().productsReducer.products[0].title).toBe('Reebok sneakers')
         expect(store.getState().productsReducer.products[1].title).toBe('Nike sneakers')

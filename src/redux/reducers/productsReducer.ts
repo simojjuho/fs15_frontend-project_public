@@ -34,7 +34,18 @@ export const createProduct = createAsyncThunk(
             return result.data
         } catch (e) {
             let error = e as AxiosError
-            console.log(error)
+            return error
+        }
+    }
+)
+export const removeProduct = createAsyncThunk(
+    'removeProduct',
+    async (id: number): Promise<{result: boolean, id: number} | AxiosError> => {
+        try {
+            const { data } = await axios.delete(`https://api.escuelajs.co/api/v1/products/${id}`)
+            return {result: data, id: id}
+        } catch (e) {
+            let error = e as AxiosError
             return error
         }
     }
@@ -43,13 +54,6 @@ const productsSlice = createSlice({
     name: 'productsReducer',
     initialState: initialState,
     reducers: {
-        removeProduct: (state, action: PayloadAction<number>) => {
-            const id = action.payload
-            return {
-                ...state,
-                products: state.products.filter(product => product.id !== id)
-            }
-        },
         emptyProductsReducer: (state) => {
             return {
                 ...state,
@@ -99,10 +103,29 @@ const productsSlice = createSlice({
                 state.loading = false
                 state.error = 'Could not create a new product'
             })
-            
-    }
+            .addCase(removeProduct.fulfilled, (state, action) => {
+                if(action.payload instanceof AxiosError) {
+                    state.error = action.payload.message
+                } else {
+                    const { result, id} = action.payload
+                    if (result) {
+                        state.products = state.products.filter(item => item.id !== id)
+                    } else {
+                        state.error = 'Could not remove the product'
+                    }
+                }
+                state.loading = false
+            })
+            .addCase(removeProduct.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(removeProduct.rejected, (state, action) => {
+                state.loading = false
+                state.error = 'Could not remove the product'
+            })
+        }
 })
 
-export const { removeProduct, emptyProductsReducer, updateProduct, sortProductsByPrice } = productsSlice.actions
+export const { emptyProductsReducer, updateProduct, sortProductsByPrice } = productsSlice.actions
 const productsReducer = productsSlice.reducer
 export default productsReducer

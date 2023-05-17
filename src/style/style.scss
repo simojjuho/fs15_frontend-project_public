@@ -4,4 +4,22 @@
 
 #root {
     overflow: hidden;
+    .tempContainer {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 3
+    }
+}
+
+.MuiPaper-root {
+    .MuiTable-root {
+        max-width: 70%;
+        margin: 0 auto;
+        .MuiTableCell-root {
+            max-width: 200px;
+        }
+    }
 }

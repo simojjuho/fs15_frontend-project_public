@@ -1,5 +1,5 @@
 import { addProduct, emptyShoppingCart, removeProduct, updateProduct } from "../../redux/reducers/shoppingCartReducer"
-import initialProducts from "../data/initialProduct"
+import initialProducts from "../data/initialProducts"
 import store from "../shared/store"
 
 beforeEach(() => {

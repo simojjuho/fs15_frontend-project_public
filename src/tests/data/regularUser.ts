@@ -1,6 +1,6 @@
 import User from "../../types/User";
 
-const singleRegularUser: User = {
+const singleUser: User = {
     id: '12345',
     username: 'destroyer',
     password: 'harry_potter91',
@@ -12,4 +12,4 @@ const singleRegularUser: User = {
     phone: '035454676',
 }
 
-export default singleRegularUser
+export default singleUser

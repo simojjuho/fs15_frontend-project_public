@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Box, IconButton, useTheme, Link } from '@mui/material'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
@@ -16,6 +16,7 @@ const Header = () => {
         if(colorContext) colorContext()
     }
     const shoppngCart = useAppSelector(state => state.shoppingCartReducer)
+    const navigate = useNavigate()
     return (
         <AppBar
             sx={{
@@ -45,7 +46,7 @@ const Header = () => {
                     PRODUCTS
                 </Link>
                 <Box sx={{position: 'relative'}}>
-                    <IconButton aria-label='link to shopping cart'>
+                    <IconButton aria-label='link to shopping cart' onClick={() => navigate('/shopping-cart')}>
                         <ShoppingCartIcon/>
                     </IconButton>
                     <Box sx={{

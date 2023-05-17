@@ -2,6 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from 'axios'
 
 import Product from "../../types/Product";
+import ProductWithoutId from "../../types/NewProduct";
 
 const initialState: {
     loading: boolean,
@@ -19,20 +20,29 @@ export const getAllProducts = createAsyncThunk(
         try {
             const result = await axios.get<Product[]>('https://api.escuelajs.co/api/v1/products')
             return result.data
-        } catch (e: unknown) {
+        } catch (e) {
             let error = e as AxiosError
             return error
         }
     }
 )
-
+export const createProduct = createAsyncThunk(
+    'createProduct',
+    async (newProduct: ProductWithoutId): Promise<Product | AxiosError> => {
+        try {
+            const result = await axios.post<Product>('https://api.escuelajs.co/api/v1/products', newProduct)
+            return result.data
+        } catch (e) {
+            let error = e as AxiosError
+            console.log(error)
+            return error
+        }
+    }
+)
 const productsSlice = createSlice({
     name: 'productsReducer',
     initialState: initialState,
     reducers: {
-        createProduct: (state, action: PayloadAction<Product>) => {
-            state.products.push(action.payload)
-        },
         removeProduct: (state, action: PayloadAction<number>) => {
             const id = action.payload
             return {
@@ -74,9 +84,25 @@ const productsSlice = createSlice({
                 state.loading = false
                 state.error = 'Cannot get data from the server'
             })
+            .addCase(createProduct.fulfilled, (state, action) => {
+                if(action.payload instanceof AxiosError) {
+                    state.error = action.payload.message
+                } else {
+                    state.products.push(action.payload)
+                }
+                state.loading = false
+            })
+            .addCase(createProduct.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(createProduct.rejected, (state, action) => {
+                state.loading = false
+                state.error = 'Could not create a new product'
+            })
+            
     }
 })
 
-export const { createProduct, removeProduct, emptyProductsReducer, updateProduct, sortProductsByPrice } = productsSlice.actions
+export const { removeProduct, emptyProductsReducer, updateProduct, sortProductsByPrice } = productsSlice.actions
 const productsReducer = productsSlice.reducer
 export default productsReducer

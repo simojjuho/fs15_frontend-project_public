@@ -11,7 +11,13 @@ interface Product {
     images: string[] 
     creationAt: string
     updateAt: string
+    category: Category
 }
+interface category: {
+      id: number,
+      name: CategoryName,
+      image: string
+    },
 <!-- Initial plan -->
 interface User {
     id: string

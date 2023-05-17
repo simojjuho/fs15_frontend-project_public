@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-const useInput = () => {
-    const [value, setValue] = useState('')
+const useInput = (amount: number) => {
+    const [value, setValue] = useState(`${amount}`)
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
         setValue(e.target.value)

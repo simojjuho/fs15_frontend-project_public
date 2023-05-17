@@ -1,8 +1,6 @@
 import Role from "./Role";
 import ShoppingCart from "./ShoppingCart";
 
-
-
 interface User {
     id: string
     username: string

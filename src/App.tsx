@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { createTheme, PaletteMode, ThemeProvider } from '@mui/material'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { StyledEngineProvider } from '@mui/material/styles'
 
 import HomePage from './pages/HomePage'
 import ErrorPage from './pages/ErrorPage'
@@ -53,11 +54,13 @@ const App = () => {
 
   const theme = useMemo(() => createTheme(customTheme(mode)),[mode])
   return (
-    <ColorThemeContext.Provider value={colorMode} >
-      <ThemeProvider theme={theme}>
-        <RouterProvider  router={router}/>
-      </ThemeProvider>
-    </ColorThemeContext.Provider>
+    <StyledEngineProvider injectFirst>
+      <ColorThemeContext.Provider value={colorMode} >
+        <ThemeProvider theme={theme}>
+          <RouterProvider  router={router}/>
+        </ThemeProvider>
+      </ColorThemeContext.Provider>
+    </StyledEngineProvider>
   )
 }
 

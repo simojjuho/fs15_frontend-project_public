@@ -7,6 +7,7 @@ import useAppSelector from "../hooks/useAppSelector"
 import ProductOnGrid from "../components/ProductOnGrid"
 import useDebounce from "../hooks/useDebounce"
 import Product from "../types/Product"
+import Loading from "../components/Loading"
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch()
@@ -17,25 +18,27 @@ const ProductsPage = () => {
     dispatch(getAllProducts())
   },[])
   useEffect(() => {
-    if(products.length > 0) {
-      setOffset((page - 1) * itemsPerPage % products.length)
+    if(productsReducer.products.length > 0) {
+      setOffset((page - 1) * itemsPerPage % productsReducer.products.length)
     }
   }, [page])
   const filterFunc = (filter: string, products: Product[]): Product[] => {
     return products.filter(item => item.title.toLowerCase().includes(filter.toLowerCase()))
   }
-  const products = useAppSelector(state => state.productsReducer.products)
-  const searchDebounce = useDebounce<Product>(filterFunc, products)
+  const productsReducer = useAppSelector(state => state.productsReducer)
+  const searchDebounce = useDebounce<Product>(filterFunc, productsReducer.products)
   
   const pageCount = Math.ceil(searchDebounce.filteredItems.length / itemsPerPage)
   const endOffset = itemOffset+itemsPerPage
   const itemsToShow = searchDebounce.filteredItems.slice(itemOffset, endOffset)
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
-  }; 
+  }
+  if(productsReducer.loading) return <Loading />
   return (
     <Container maxWidth='lg' sx={{
       padding: '6em 0',
+      minHeight: '80vh',
       display: 'flex',
       flexDirection: 'column'
     }}>

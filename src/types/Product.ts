@@ -1,3 +1,5 @@
+import Category from "./Category"
+
 interface Product {
     id: number
     title: string
@@ -5,7 +7,8 @@ interface Product {
     description: string
     images: string[] 
     creationAt: string
-    updateAt: string
+    updateAt?: string
+    category: Category
 }
 
 export default Product

@@ -1,8 +1,9 @@
+import { Container } from '@mui/material'
 import React from 'react'
 
 const LandingPage = () => {
   return (
-    <div>LandingPage</div>
+    <Container sx={{minHeight: '90vh'}}>LandingPage</Container>
   )
 }
 

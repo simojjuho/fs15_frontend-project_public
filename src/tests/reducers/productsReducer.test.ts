@@ -1,6 +1,6 @@
 import { createProduct, removeProduct, getAllProducts, sortProductsByPrice, updateProduct } from "../../redux/reducers/productsReducer"
-import singleProduct from "../data/singleInitialProduct"
-import initialProducts from "../data/initialNewProducts"
+import singleProduct from "../data/products/singleInitialProduct"
+import initialProducts from "../data/products/initialNewProducts"
 import store from "../shared/store"
 import productServer from "../servers/productsServer"
 import ProductPropertiesForUpdate from "../../types/ProductPropertiesForUpdate"

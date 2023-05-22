@@ -1,5 +1,5 @@
 import ShoppingCart from "../../types/ShoppingCart";
-import initialProducts from "./initialNewProducts";
+import initialProducts from "./products/initialNewProducts";
 
 const initialShoppingCart: ShoppingCart = {
     id: '123',

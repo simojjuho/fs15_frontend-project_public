@@ -1,14 +1,30 @@
-import userReducer, { loginUser, registerUser } from "../../redux/reducers/userReducer"
-import singleRegularUser from "../data/regularUser"
+import { getAllUsers, loginUser, registerUser } from "../../redux/reducers/userReducer"
+import store from "../shared/store"
+import server from '../servers/userServer'
+import newUser from "../data/users/newUser"
+
+beforeAll(() => {
+    server.listen()
+})
+afterAll(() => {
+    server.close()
+})
 
 describe('testing userReducer', () => {
-    test('registering enew users succesfully', () => {
-        const state = userReducer(undefined, registerUser(singleRegularUser))
-        expect(state.users).toHaveLength(1)
+    test('fetching users succesfully', async () => {
+        await store.dispatch(getAllUsers())
+        const userState = store.getState().userReducer.users
+        expect(userState).toHaveLength(3)
     })
-    test('Logging in new users succesfully', () => {
-        const state = userReducer(undefined, loginUser('123'))
-        expect(state.loggedUser).toBe('123')
+    test('registering enew users succesfully', async () => {
+        await store.dispatch(registerUser(newUser))
+        const userState = store.getState().userReducer.users
+        expect(userState).toHaveLength(4)
+        expect(userState[3].id).toBe('12345')
+    })
+    test('Logging in succesfully', async () => {
+        await store.dispatch(loginUser({email: 'harry@potter.com', password: 'harry91'}))
+        expect(store.getState().userReducer.user?.email).toBe('harry@potter.com')
     })
 })
 

@@ -3,8 +3,8 @@ import { setupServer } from 'msw/node'
 
 import { objectParser } from '../testUtils/parsers'
 import Product from '../../types/Product'
-import initialProducts from '../data/initialProducts'
-import singleReadyProduct from '../data/singleReadyProduct'
+import initialProducts from '../data/products/initialProducts'
+import singleReadyProduct from '../data/products/singleReadyProduct'
 
 let products: Product[] = initialProducts
 let mutableProducts: Product[] = initialProducts

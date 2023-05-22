@@ -1,31 +1,143 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import axios, { AxiosError } from "axios"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import User from "../../types/User";
+import User from "../../types/User"
+import NewUser from "../../types/NewUser";
 
 const initialState: {
-    error: string,
-    loggedUser: string | null,
+    notification: string,
+    isSuccess: boolean
+    loading: boolean
+    user: User | null,
     users: User[]
 } = {
-    error: '',
-    loggedUser: null,
+    notification: '',
+    isSuccess: false,
+    loading: false,
+    user: null,
     users: []
 }
-
+export const getAllUsers = createAsyncThunk(
+    'getAllUsers',
+    async () => {
+        try {
+            const { data } = await axios.get<User[]>('https://api.escuelajs.co/api/v1/users')
+            return data
+        } catch (e) {
+            const error = e as AxiosError
+            return error
+        }
+    }
+)
+export const registerUser = createAsyncThunk(
+    'registerUser',
+    async (newUser: NewUser) => {
+        try {
+            const { data } = await axios.post<User>('https://api.escuelajs.co/api/v1/users/',  newUser)
+            return data
+        } catch (e) {
+            const error = e as AxiosError
+            return error
+        }
+    }
+)
+export const getProfile = createAsyncThunk(
+    'getProfile',
+    async (access_token: string) => {
+        try {
+            const { data } = await axios.get<User>('https://api.escuelajs.co/api/v1/auth/profile', {
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            })
+            return data
+        } catch (e) {
+            const error = e as AxiosError
+            return error
+        }
+    }
+)
+export const loginUser = createAsyncThunk(
+    'loginUser',
+    async (credentials: {email: string, password: string}, { dispatch }) => {
+        try {
+            const { data } = await axios.post<{access_token: string, refresh_token: string}>('https://api.escuelajs.co/api/v1/auth/login', credentials)
+            window.localStorage.setItem('token', data.access_token)
+            const authentication = await dispatch(getProfile(data.access_token))
+            return authentication.payload as User
+        } catch (e) {
+            const error = e as AxiosError
+            return error
+        }
+    }
+)
 const userSlice = createSlice({
     name: 'userReducer',
     initialState: initialState,
     reducers: {
-        registerUser: (state, action: PayloadAction<User>) => {
-            state.users.push(action.payload)
-        },
-        loginUser: (state, action: PayloadAction<string>) => {
-            window.localStorage.setItem('userId', action.payload)
-            state.loggedUser = action.payload
-        }
+        initializeNotification: (state) => {
+            state.isSuccess = false
+            state.notification = ''
+        } 
+     },
+    extraReducers: (build) => {
+        build
+        .addCase(loginUser.fulfilled, (state, action) => {
+            if (action.payload instanceof AxiosError) {
+                state.notification = action.payload.message
+            } else {
+                state.user = action.payload   
+                state.notification = ''             
+            }
+            state.loading = false
+        })
+        .addCase(loginUser.pending, (state, action) => {
+            state.loading = true
+            state.notification = ''
+        })
+        .addCase(loginUser.rejected, (state, action) => {
+            state.loading = false
+            state.notification = 'Login failed. Check your username and password'
+        })
+        .addCase(registerUser.fulfilled, (state, action) => {
+            if (action.payload instanceof AxiosError) {
+                state.notification = action.payload.message
+            } else {
+                state.users.push(action.payload)
+                state.isSuccess = true
+                state.notification = ''             
+            }
+            state.loading = false
+        })
+        .addCase(registerUser.pending, (state) => {
+            state.loading = true
+            state.notification = ''
+        })
+        .addCase(registerUser.rejected, (state) => {
+            state.loading = false
+            state.isSuccess = false
+            state.notification = 'Could not register the user.'
+        })
+        .addCase(getAllUsers.fulfilled, (state, action) => {
+            if (action.payload instanceof AxiosError) {
+                state.notification = action.payload.message
+            } else {
+                state.users = action.payload
+                state.notification = ''                
+            }
+            state.loading = false
+        })
+        .addCase(getAllUsers.pending, (state, action) => {
+            state.loading = true
+            state.notification = ''
+        })
+        .addCase(getAllUsers.rejected, (state, action) => {
+            state.loading = false
+            state.notification = 'Fetching users failed.'
+        })
     }
 })
 
 const userReducer = userSlice.reducer
 export default userReducer
-export const { registerUser, loginUser } = userSlice.actions
+export const { initializeNotification } = userSlice.actions

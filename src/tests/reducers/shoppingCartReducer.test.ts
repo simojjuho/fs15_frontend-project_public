@@ -1,5 +1,5 @@
 import { addProduct, emptyShoppingCart, removeProduct, updateProduct } from "../../redux/reducers/shoppingCartReducer"
-import initialProducts from "../data/initialProducts"
+import initialProducts from "../data/products/initialProducts"
 import store from "../shared/store"
 
 beforeEach(() => {
@@ -17,6 +17,7 @@ describe('testing shoppingCartReducer', () => {
         store.dispatch(addProduct(initialProducts[0]))
         store.dispatch(addProduct(initialProducts[0]))
         expect(store.getState().shoppingCartReducer.productsInCart).toHaveLength(1)
+        expect(store.getState().shoppingCartReducer.productsInCart[0].amount).toBe(2)
     })
     test('removing a single product succesfully', () => {
         for (let product of initialProducts) {

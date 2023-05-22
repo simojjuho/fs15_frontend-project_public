@@ -34,7 +34,7 @@ Along the ones mentioned above, this project uses at least next packages:
 
 This project requires implementation of TypeScript and SASS.
 
-## Requirement
+## Requirements
 
 1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
 2. Create at lease 4 pages (can be more if you want): Home page, product page,

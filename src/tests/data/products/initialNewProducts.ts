@@ -1,4 +1,4 @@
-import NewProduct from "../../types/NewProduct";
+import NewProduct from "../../../types/NewProduct";
 
 const initialProducts: NewProduct[] = [{
     title: 'Nike sneakers',

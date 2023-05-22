@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import useAppSelector from '../hooks/useAppSelector'
 import useAppDispatch from '../hooks/useAppDispatch'
-import { setVisibility } from '../redux/reducers/modalReducer'
+import { setRegistrationVisibility } from '../redux/reducers/modalReducer'
 import registrationFormSchema, { RegistrationFormData } from '../validation/registrationFormSchema'
 import NewUser from '../types/NewUser';
 import { registerUser, initializeNotification } from '../redux/reducers/userReducer';
@@ -12,7 +12,7 @@ import { useEffect  } from 'react';
 import Notification from './Notification';
 
 const RegisterModal = () => {
-    const isOpen = useAppSelector(state => state.modalReducer)
+    const isOpen = useAppSelector(state => state.modalReducer.registrationModal)
     const dispatch = useAppDispatch()
     const users = useAppSelector(state => state.userReducer)
     const { handleSubmit, control, formState: { errors }, reset } = useForm<RegistrationFormData>({
@@ -39,11 +39,11 @@ const RegisterModal = () => {
         }
         dispatch(registerUser(newUser))
         setTimeout(() => {
-            dispatch(setVisibility())
+            dispatch(setRegistrationVisibility())
         }, 6000)
     }
     const handleClose = () => {
-        dispatch(setVisibility())
+        dispatch(setRegistrationVisibility())
     }
     return (
         <Dialog open={isOpen} onClose={handleClose} maxWidth='sm'>
@@ -53,7 +53,7 @@ const RegisterModal = () => {
                 : users.notification
                 ? <Notification message={users.notification} severity={'error'}/>
                 : null}
-            <DialogContent sx={{ marginTop: '2em'}}>
+            <DialogContent className='modalForm'>
                 <Controller 
                     name="name"
                     control={control}
@@ -124,7 +124,7 @@ const RegisterModal = () => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleSubmit(onSubmit)} color='secondary' variant='outlined'>Sign up</Button>
-                <Button onClick={() => dispatch(setVisibility())} color='secondary' variant='outlined'>Cancel</Button>
+                <Button onClick={() => dispatch(setRegistrationVisibility())} color='secondary' variant='outlined'>Cancel</Button>
             </DialogActions>
         </Dialog>
   )

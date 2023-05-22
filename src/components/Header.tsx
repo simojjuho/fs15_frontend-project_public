@@ -1,6 +1,6 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
-import { AppBar, Toolbar, Typography, Box, IconButton, useTheme, Link } from '@mui/material'
+import { AppBar, Toolbar, Typography, Box, IconButton, useTheme, Link, Menu, MenuItem } from '@mui/material'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
@@ -8,15 +8,48 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import ColorThemeContext from '../utils/ColorThemeContext'
 import useAppSelector from '../hooks/useAppSelector'
+import useAppDispatch from '../hooks/useAppDispatch'
+import { logoutUser } from '../redux/reducers/userReducer'
+import { setLoginVisibility, setRegistrationVisibility } from '../redux/reducers/modalReducer'
 
 const Header = () => {
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+    const dispatch = useAppDispatch()
     const colorContext = useContext(ColorThemeContext)
     const theme = useTheme()
     const themeClickHandler = () => {
         if(colorContext) colorContext()
     }
     const shoppngCart = useAppSelector(state => state.shoppingCartReducer)
+    const user = useAppSelector(state => state.userReducer.user)
+    const userMenuItems = user ? ['Profile', 'Logout'] : ['Login', 'Sign up']
     const navigate = useNavigate()
+    const handleMenuItemClick = (action: string) => {
+        switch (action) {
+            case 'Logout':
+                dispatch(logoutUser())
+                handleCloseUserMenu()
+                break
+            case 'Profile':
+                navigate(`/users/${user?.id}`)
+                handleCloseUserMenu()
+                break
+            case 'Sign up':
+                dispatch(setRegistrationVisibility())
+                handleCloseUserMenu()
+                break
+            case 'Login':
+                dispatch(setLoginVisibility())
+                handleCloseUserMenu()
+                break
+        }
+    }
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null)
+    }
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    }
     return (
         <AppBar
             sx={{
@@ -67,9 +100,29 @@ const Header = () => {
                 <IconButton onClick={themeClickHandler} aria-label='color theme switch'>
                     {theme.palette.mode === 'light' ? <DarkModeIcon  /> : <LightModeIcon />}
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={handleOpenUserMenu}>
                     <AccountCircleIcon />
                 </IconButton>
+                <Menu
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                >
+                    {userMenuItems.map((item) => (
+                    <MenuItem key={item} onClick={() => handleMenuItemClick(item)}>
+                        <Typography textAlign="center">{item}</Typography>
+                    </MenuItem>
+              ))}
+                </Menu>
             </Box>
             </Toolbar>
         </AppBar>

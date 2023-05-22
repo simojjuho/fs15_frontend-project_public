@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import User from "../../types/User"
 import NewUser from "../../types/NewUser";
+import LoginCredentials from "../../types/LoginCredentials";
 
 const initialState: {
     notification: string,
@@ -41,7 +42,7 @@ export const registerUser = createAsyncThunk(
         }
     }
 )
-export const getProfile = createAsyncThunk(
+export const authenticate = createAsyncThunk(
     'getProfile',
     async (access_token: string) => {
         try {
@@ -59,11 +60,11 @@ export const getProfile = createAsyncThunk(
 )
 export const loginUser = createAsyncThunk(
     'loginUser',
-    async (credentials: {email: string, password: string}, { dispatch }) => {
+    async (credentials: LoginCredentials, { dispatch }) => {
         try {
             const { data } = await axios.post<{access_token: string, refresh_token: string}>('https://api.escuelajs.co/api/v1/auth/login', credentials)
             window.localStorage.setItem('token', data.access_token)
-            const authentication = await dispatch(getProfile(data.access_token))
+            const authentication = await dispatch(authenticate(data.access_token))
             return authentication.payload as User
         } catch (e) {
             const error = e as AxiosError
@@ -78,7 +79,11 @@ const userSlice = createSlice({
         initializeNotification: (state) => {
             state.isSuccess = false
             state.notification = ''
-        } 
+        },
+        logoutUser: (state) => {
+            state = initialState
+            window.localStorage.clear()
+        }
      },
     extraReducers: (build) => {
         build
@@ -140,4 +145,4 @@ const userSlice = createSlice({
 
 const userReducer = userSlice.reducer
 export default userReducer
-export const { initializeNotification } = userSlice.actions
+export const { initializeNotification, logoutUser } = userSlice.actions

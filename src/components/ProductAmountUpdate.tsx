@@ -18,10 +18,10 @@ const ProductAmountUpdate = ({product}: ProductAmountUpdateProps) => {
     const dispatch = useAppDispatch()
     const initialAmount = () => {
         const item = shoppingCart.productsInCart.find(item => item.product.id === product.id)
-        if (item) return item.amount
-        return 1
+        if (item) return `${item.amount}`
+        return '1'
         }
-    const { value, handleChange } = useInput(initialAmount())
+    const { value, onChange } = useInput(initialAmount())
     const handleUpdate = () => {
         const amount = Number(value)
         if( typeof amount === 'number' ) {
@@ -39,7 +39,7 @@ const ProductAmountUpdate = ({product}: ProductAmountUpdateProps) => {
             justifyContent: 'end',
             gap: 1
         }}>
-            {isProductInCart() ? <AmountInput handleChange={handleChange} handleUpdate={handleUpdate} amount={value}/> : null} 
+            {isProductInCart() ? <AmountInput handleChange={onChange} handleUpdate={handleUpdate} initialValue={value}/> : null} 
             <IconButton onClick={handleProductClick} sx={{
                 color: 'secondary'
             }}>

@@ -10,13 +10,9 @@ import Product from "../types/Product"
 import Loading from "../components/Loading"
 
 const ProductsPage = () => {
-  const dispatch = useAppDispatch()
   const [page, setPage] = useState(1)
   const [itemOffset, setOffset] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(10)
-  useEffect(() => {
-    dispatch(getAllProducts())
-  },[])
   useEffect(() => {
     if(productsReducer.products.length > 0) {
       setOffset((page - 1) * itemsPerPage % productsReducer.products.length)
@@ -27,7 +23,9 @@ const ProductsPage = () => {
   }
   const productsReducer = useAppSelector(state => state.productsReducer)
   const searchDebounce = useDebounce<Product>(filterFunc, productsReducer.products)
-  
+  useEffect(() => {
+    setPage(1)
+  }, [searchDebounce.search])
   const pageCount = Math.ceil(searchDebounce.filteredItems.length / itemsPerPage)
   const endOffset = itemOffset+itemsPerPage
   const itemsToShow = searchDebounce.filteredItems.slice(itemOffset, endOffset)

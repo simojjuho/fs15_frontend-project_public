@@ -1,14 +1,14 @@
-import { Box, IconButton } from '@mui/material'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import { Box } from '@mui/material'
 
 import AmountInput from './AmountInput'
 import ProductInCart from '../types/ProductsInCart'
 import useAppDispatch from '../hooks/useAppDispatch'
 import useAppSelector from '../hooks/useAppSelector'
 import useInput from '../hooks/useInput'
-import { addProduct, updateProduct, removeProduct } from '../redux/reducers/shoppingCartReducer'
+import { updateProduct, removeProduct } from '../redux/reducers/shoppingCartReducer'
 import Product from '../types/Product';
+import AddInCart from './AddInCart'
+import isProductInCart from '../utils/isProductInCart'
 
 interface ProductAmountUpdateProps{
     product: Product
@@ -30,10 +30,7 @@ const ProductAmountUpdate = ({product}: ProductAmountUpdateProps) => {
             : dispatch(updateProduct({id: product.id, amount}))
         }        
     }
-    const isProductInCart = () => shoppingCart.productsInCart.some((item: ProductInCart) => item.product.title === product.title)
-    const handleProductClick = () => {
-        isProductInCart() ? dispatch(removeProduct(product.id)) : dispatch(addProduct(product))
-    }
+    
     return (
         <Box sx={{
             display: 'flex',
@@ -41,12 +38,8 @@ const ProductAmountUpdate = ({product}: ProductAmountUpdateProps) => {
             justifyContent: 'end',
             gap: 1
         }}>
-            {isProductInCart() ? <AmountInput handleChange={onChange} handleUpdate={handleUpdate} initialValue={value}/> : null} 
-            <IconButton onClick={handleProductClick} sx={{
-                color: 'secondary'
-            }}>
-                {isProductInCart() ? <RemoveShoppingCartIcon /> : <AddShoppingCartIcon />}
-            </IconButton>
+            {isProductInCart(shoppingCart, product) ? <AmountInput handleChange={onChange} handleUpdate={handleUpdate} initialValue={value}/> : null} 
+            <AddInCart product={product}/>
         </Box>
     )
 }

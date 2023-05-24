@@ -10,7 +10,6 @@ const UserList = () => {
     const [itemssPerPage, setUsersPerPage] = useState(10)
     const users = useAppSelector(state => state.userReducer.users)
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * itemssPerPage - users.length) : 0
-
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,

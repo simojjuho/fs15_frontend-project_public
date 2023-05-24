@@ -3,7 +3,6 @@ import useAppSelector from '../hooks/useAppSelector'
 import { Box, Container, Typography } from '@mui/material'
 
 import UserList from '../components/AdminDashboard/UserList'
-import ProductsListDashboard from '../components/AdminDashboard/ProductsListDashboard'
 
 const AdminPage = () => {
     const user = useAppSelector(state => state.userReducer.user)
@@ -12,16 +11,10 @@ const AdminPage = () => {
         navigate('/')
     }
     return (
-        <Container id='adminPage' sx={{
+        <Container maxWidth='md' id='adminPage' sx={{
             padding: '8em 0'
         }}>
             <Typography variant='h2'>Admin Dashboard</Typography>
-            <Box sx={{
-                marginTop: '3em'
-            }}>
-                <Typography variant='h3'>Add / edit products</Typography>
-                <ProductsListDashboard />
-            </Box>
             <Box sx={{
                 marginTop: '3em'
             }}>

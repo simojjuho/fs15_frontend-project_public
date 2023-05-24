@@ -5,6 +5,7 @@
 #root {
     overflow: hidden;
     .pageContainer {
+        padding: 8em 0;
         min-height: 80vh;
         display: flex;
         justify-content: center;
@@ -38,6 +39,11 @@
     .MuiTable-root {
         max-width: 70%;
         margin: 0 auto;
+        .userRow {
+            &:hover {
+                background-color: rgb(184, 184, 184);
+            }
+        }
         .MuiTableCell-root {
             max-width: 200px;
         }

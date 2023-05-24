@@ -1,5 +1,7 @@
-import { Avatar, Button, TableCell, TableRow } from '@mui/material'
-import React from 'react'
+import { Avatar, Icon, Link, TableCell, TableRow } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import { ArrowForwardIos } from '@mui/icons-material'
+
 import User from '../../types/User'
 
 interface UserRowProps {
@@ -7,7 +9,8 @@ interface UserRowProps {
 }
 const UserRow = ({ user }: UserRowProps) => {
   return (
-    <TableRow>
+    <TableRow className='userRow'>
+      <Link component={RouterLink} to={`/users/${user.id}`}>
         <TableCell>
             <Avatar src={user.avatar} />
         </TableCell>
@@ -16,8 +19,11 @@ const UserRow = ({ user }: UserRowProps) => {
         <TableCell>{user.role}</TableCell>
         <TableCell>{user.email}</TableCell>
         <TableCell>
-            <Button variant='outlined' color='secondary'>edit</Button>
+          <Icon>
+            <ArrowForwardIos color='secondary'/>
+          </Icon>
         </TableCell>
+      </Link>
     </TableRow>
   )
 }

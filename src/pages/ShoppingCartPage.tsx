@@ -1,8 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 
 import useAppSelector from '../hooks/useAppSelector'
-import ShoppingCartRow from '../components/ShoppingCartRow'
-import TableTotal from '../components/TableTotal'
+import ShoppingCartRow from '../components/ShoppingCart/ShoppingCartRow'
+import TableTotal from '../components/ShoppingCart/TableTotal'
 import CartEmpty from '../components/CartEmpty'
 
 const ShoppingCartPage = () => {

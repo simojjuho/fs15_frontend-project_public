@@ -81,8 +81,8 @@ const userSlice = createSlice({
             state.notification = ''
         },
         logoutUser: (state) => {
-            state = initialState
             window.localStorage.clear()
+            return initialState
         }
      },
     extraReducers: (build) => {
@@ -108,9 +108,14 @@ const userSlice = createSlice({
             if (action.payload instanceof AxiosError) {
                 state.notification = action.payload.message
             } else {
-                state.users.push(action.payload)
-                state.isSuccess = true
-                state.notification = ''             
+                console.log(action.payload)
+                return {
+                    ...state,
+                    notification: '',
+                    users: state.users.concat(action.payload),
+                    isSuccess: true,
+                    user: action.payload
+                }                 
             }
             state.loading = false
         })
@@ -139,6 +144,20 @@ const userSlice = createSlice({
         .addCase(getAllUsers.rejected, (state, action) => {
             state.loading = false
             state.notification = 'Fetching users failed.'
+        })
+        .addCase(authenticate.fulfilled, (state, action) => {
+            if (action.payload instanceof AxiosError) {
+                state.notification = action.payload.message
+            } else {
+                return {
+                    ...state,
+                    notification: '',
+                    users: state.users.concat(action.payload),
+                    isSuccess: true,
+                    user: action.payload
+                }
+            }
+            state.loading = false  
         })
     }
 })

@@ -13,16 +13,23 @@ const modalSlice = createSlice({
     initialState: initialState,
     reducers: {
         setRegistrationVisibility: (state) => {
-            state.registrationModal = !state.registrationModal
-            state.loginModal = false
+            return {
+                loginModal: false,
+                registrationModal: !state.registrationModal
+            }
         },
         setLoginVisibility: (state) => {
-            state.loginModal = !state.loginModal
-            state.registrationModal = false
+            return {
+                loginModal: !state.loginModal,
+                registrationModal: false
+            }
+        },
+        initializeModals: () => {
+            return initialState
         }
     }
 })
 
-export const { setRegistrationVisibility, setLoginVisibility } = modalSlice.actions
+export const { setRegistrationVisibility, setLoginVisibility, initializeModals } = modalSlice.actions
 const modalReducer = modalSlice.reducer
 export default modalReducer

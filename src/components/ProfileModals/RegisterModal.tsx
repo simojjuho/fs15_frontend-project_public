@@ -2,14 +2,14 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } 
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import useAppSelector from '../hooks/useAppSelector'
-import useAppDispatch from '../hooks/useAppDispatch'
-import { setRegistrationVisibility } from '../redux/reducers/modalReducer'
-import registrationFormSchema, { RegistrationFormData } from '../validation/registrationFormSchema'
-import NewUser from '../types/NewUser';
-import { registerUser, initializeNotification } from '../redux/reducers/userReducer';
+import useAppSelector from '../../hooks/useAppSelector'
+import useAppDispatch from '../../hooks/useAppDispatch'
+import { setRegistrationVisibility } from '../../redux/reducers/modalReducer'
+import registrationFormSchema, { RegistrationFormData } from '../../validation/registrationFormSchema'
+import NewUser from '../../types/NewUser';
+import { registerUser, initializeNotification } from '../../redux/reducers/userReducer';
 import { useEffect  } from 'react';
-import Notification from './Notification';
+import Notification from '../Notification';
 
 const RegisterModal = () => {
     const isOpen = useAppSelector(state => state.modalReducer.registrationModal)

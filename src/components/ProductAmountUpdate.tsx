@@ -25,7 +25,9 @@ const ProductAmountUpdate = ({product}: ProductAmountUpdateProps) => {
     const handleUpdate = () => {
         const amount = Number(value)
         if( typeof amount === 'number' ) {
-            Number(value) === 0 ? dispatch(removeProduct(product.id)) :dispatch(updateProduct({id: product.id, amount}))
+            amount === 0 
+            ? dispatch(removeProduct(product.id))
+            : dispatch(updateProduct({id: product.id, amount}))
         }        
     }
     const isProductInCart = () => shoppingCart.productsInCart.some((item: ProductInCart) => item.product.title === product.title)

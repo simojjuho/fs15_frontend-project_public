@@ -23,6 +23,7 @@ const Header = () => {
     const shoppngCart = useAppSelector(state => state.shoppingCartReducer)
     const user = useAppSelector(state => state.userReducer.user)
     const userMenuItems = user ? ['Profile', 'Logout'] : ['Login', 'Sign up']
+    if (user?.role === 'admin') userMenuItems.unshift('Admin dashboard')
     const navigate = useNavigate()
     const handleMenuItemClick = (action: string) => {
         switch (action) {
@@ -41,6 +42,9 @@ const Header = () => {
             case 'Login':
                 dispatch(setLoginVisibility())
                 handleCloseUserMenu()
+                break
+            case 'Admin dashboard':
+                navigate('/admin-dashboard')
                 break
         }
     }

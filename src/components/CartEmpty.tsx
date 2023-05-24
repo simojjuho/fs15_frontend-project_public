@@ -5,7 +5,7 @@ import { Container, Typography, Button } from '@mui/material'
 const CartEmpty = () => {
     const navigate = useNavigate()    
     return (
-        <Container className='tempContainer' >
+        <Container className='pageContainer' >
             <Typography>
                 <SentimentDissatisfiedIcon sx={{ fontSize: 65 }}/>
             </Typography>

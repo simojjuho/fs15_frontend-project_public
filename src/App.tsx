@@ -13,6 +13,7 @@ import ShoppingCartPage from './pages/ShoppingCartPage'
 import './style/style.scss'
 import customTheme from './themes/globalTheme'
 import ColorThemeContext from './utils/ColorThemeContext'
+import AdminPage from './pages/AdminPage'
 
 
 const router = createBrowserRouter([
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: 'shopping-cart',
         element: <ShoppingCartPage />
+      },
+      {
+        path: 'admin-dashboard',
+        element: <AdminPage />
       }
     ]
   }

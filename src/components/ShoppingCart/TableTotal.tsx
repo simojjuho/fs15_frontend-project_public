@@ -1,6 +1,6 @@
 import { TableRow, TableCell } from '@mui/material'
 import React, { useMemo } from 'react'
-import ShoppingCart from '../types/ShoppingCart'
+import ShoppingCart from '../../types/ShoppingCart'
 
 interface TableTotalProps {
     shoppingCart: ShoppingCart
@@ -8,7 +8,7 @@ interface TableTotalProps {
 const TableTotal = ({shoppingCart}: TableTotalProps) => {
     const formatNumbers = (amount: number) => `${amount.toFixed(2)}`
     const totalPrice = useMemo(() => {
-        return shoppingCart.productsInCart.reduce((a, b) => a + b.product.price, 0)
+        return shoppingCart.productsInCart.reduce((a, b) => a + b.product.price * b.amount, 0)
     }, [shoppingCart])
     const countVat = () => totalPrice * 24 / 124
     return (

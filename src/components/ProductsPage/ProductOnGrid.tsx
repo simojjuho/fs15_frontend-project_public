@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom'
 import { Paper, Link, Grid, Box, Typography } from '@mui/material'
 
-import Product from '../types/Product'
-import ProductAmountUpdate from './ProductAmountUpdate';
+import Product from '../../types/Product'
+import ProductAmountUpdate from '../ProductAmountUpdate';
 
 interface ProductOnGridProps {
     product: Product

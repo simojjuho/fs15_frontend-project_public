@@ -32,7 +32,7 @@ const Header = () => {
                 handleCloseUserMenu()
                 break
             case 'Profile':
-                navigate(`/users/${user?.id}`)
+                navigate(`/users/profile`)
                 handleCloseUserMenu()
                 break
             case 'Sign up':

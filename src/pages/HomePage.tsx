@@ -10,12 +10,14 @@ import LoginModal from '../components/ProfileModals/LoginModal';
 import RegisterModal from '../components/ProfileModals/RegisterModal';
 import { authenticate, getAllUsers } from '../redux/reducers/userReducer';
 import useAppSelector from '../hooks/useAppSelector';
+import { getAllCategories } from '../redux/reducers/categoryReducer';
 
 const HomePage = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(state => state.userReducer.user)
   useEffect(() => {
     dispatch(getAllProducts())
+    dispatch(getAllCategories())
   }, [])
   useEffect(() => {
     if(!user) {

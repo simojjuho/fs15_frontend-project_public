@@ -6,7 +6,7 @@ import useAppSelector from '../../hooks/useAppSelector'
 import ProductRow from './ProductRow'
 
 const ProductsListDashboard = () => {
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(0)
     const [itemssPerPage, setUsersPerPage] = useState(10)
     const products = useAppSelector(state => state.productsReducer.products)
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * itemssPerPage - products.length) : 0

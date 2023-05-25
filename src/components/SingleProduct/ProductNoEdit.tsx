@@ -1,6 +1,6 @@
-import { Box, Typography, ImageList, ImageListItem, List, ListItem } from '@mui/material'
+import { Box, ImageList, ImageListItem, List, ListItem } from '@mui/material'
 
-import Product from '../types/Product'
+import Product from '../../types/Product'
 
 interface ProductsNoEditProps {
     product: Product
@@ -8,9 +8,6 @@ interface ProductsNoEditProps {
 const ProductsNoEdit = ({ product }: ProductsNoEditProps) => {
     return (
         <Box>
-            <Typography variant='h2'>
-              {product?.title}
-            </Typography>
             <ImageList sx={{ width: 500 }} cols={3} rowHeight={164}>
               {product.images.map((item, index) => (
                 <ImageListItem key={index}>

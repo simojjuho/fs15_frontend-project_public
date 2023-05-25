@@ -3,6 +3,7 @@ import useAppSelector from '../hooks/useAppSelector'
 import { Box, Container, Typography } from '@mui/material'
 
 import UserList from '../components/AdminDashboard/UserList'
+import ProductsListDashboard from '../components/AdminDashboard/ProductsListDashboard'
 
 const AdminPage = () => {
     const user = useAppSelector(state => state.userReducer.user)
@@ -18,6 +19,8 @@ const AdminPage = () => {
             <Box sx={{
                 marginTop: '3em'
             }}>
+                <Typography variant='h3'>Add / edit products</Typography>
+                <ProductsListDashboard />
                 <Typography variant='h3'>Add / edit users</Typography>
                 <UserList />
             </Box>

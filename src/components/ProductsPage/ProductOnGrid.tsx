@@ -30,7 +30,7 @@ const ProductOnGrid = ({product}: ProductOnGridProps) => {
             {product.price} €<br />
             <ProductAmountUpdate product={product} />
        </Paper>)
-    },[product]);
+    },[product])
     return (
     <Grid item xs={12} md={4} lg={3}>
         {child}

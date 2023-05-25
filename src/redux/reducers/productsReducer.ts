@@ -4,17 +4,20 @@ import axios, { AxiosError } from 'axios'
 import Product from "../../types/Product";
 import ProductWithoutId from "../../types/NewProduct";
 import ProductPropertiesForUpdate from "../../types/ProductPropertiesForUpdate";
+import ProductDataForUpdate from "../../types/ProductDataForUpdate";
+import fileUploadService from "../../utils/fileUploadService";
 
 const initialState: {
     loading: boolean,
-    error: string,
+    notification: string,
+    isEditSuccess: boolean
     products: Product[]
 } = {
     loading: false,
-    error: '',
+    notification: '',
+    isEditSuccess: false,
     products: []
 }
-
 export const getAllProducts = createAsyncThunk(
     'getAllProducts',
     async () => {
@@ -55,7 +58,21 @@ export const updateProduct = createAsyncThunk(
     'updateProduct',
     async (newProps: ProductPropertiesForUpdate): Promise<Product | AxiosError> =>  {
         try {
-            const { data } = await axios.put<Product>(`https://api.escuelajs.co/api/v1/products/${newProps.id}`, newProps.data)
+            let dataForUpdate: ProductDataForUpdate
+            if (newProps.images) {
+                const fileData = await fileUploadService(newProps.images)
+                console.log([...fileData])
+                dataForUpdate = {
+                    ...newProps.data,
+                    images: [...fileData]
+                }
+                console.log(dataForUpdate)
+            } else {
+                dataForUpdate = {
+                    ...newProps.data
+                }
+            }     
+            const { data } = await axios.put<Product>(`https://api.escuelajs.co/api/v1/products/${newProps.id}`, dataForUpdate)
             return data
         } catch (e) {
             let error = e as AxiosError
@@ -76,13 +93,20 @@ const productsSlice = createSlice({
         sortProductsByPrice: (state, action: PayloadAction<string>) => {
             if (action.payload === 'desc') state.products.sort((a, b) => b.price-a.price)
             if (action.payload === 'asc') state.products.sort((a, b) => a.price-b.price)
+        },
+        initializeProductNotifications: (state) => {
+            return {
+                ...state,
+                isEditSuccess: false,
+                notification: ''
+            }
         }
     },
     extraReducers: (build) => {
         build
             .addCase(getAllProducts.fulfilled, (state, action) => {
                 if(action.payload instanceof AxiosError) {
-                    state.error = action.payload.message
+                    state.notification = action.payload.message
                 } else {
                     state.products = action.payload
                 }
@@ -93,11 +117,11 @@ const productsSlice = createSlice({
             })
             .addCase(getAllProducts.rejected, (state, action) => {
                 state.loading = false
-                state.error = 'Cannot get data from the server'
+                state.notification = 'Cannot get data from the server'
             })
             .addCase(createProduct.fulfilled, (state, action) => {
                 if(action.payload instanceof AxiosError) {
-                    state.error = action.payload.message
+                    state.notification = action.payload.message
                 } else {
                     state.products.push(action.payload)
                 }
@@ -108,17 +132,17 @@ const productsSlice = createSlice({
             })
             .addCase(createProduct.rejected, (state, action) => {
                 state.loading = false
-                state.error = 'Could not create a new product'
+                state.notification = 'Could not create a new product'
             })
             .addCase(removeProduct.fulfilled, (state, action) => {
                 if(action.payload instanceof AxiosError) {
-                    state.error = action.payload.message
+                    state.notification = action.payload.message
                 } else {
                     const { result, id} = action.payload
                     if (result) {
                         state.products = state.products.filter(item => item.id !== id)
                     } else {
-                        state.error = 'Could not remove the product'
+                        state.notification = 'Could not remove the product'
                     }
                 }
                 state.loading = false
@@ -128,14 +152,18 @@ const productsSlice = createSlice({
             })
             .addCase(removeProduct.rejected, (state, action) => {
                 state.loading = false
-                state.error = 'Could not remove the product'
+                state.notification = 'Could not remove the product'
             })
             .addCase(updateProduct.fulfilled, (state, action) => {
                 if(action.payload instanceof AxiosError) {
-                    state.error = action.payload.message
+                    state.notification = action.payload.message
                 } else {
                     const product = action.payload
-                    state.products = state.products.map(item => item.id === product.id ? product : item)
+                    return {
+                        ...state,
+                        isEditSuccess: true,
+                        products: state.products.map(item => item.id === product.id ? product : item)
+                    }
                 }
                 state.loading = false
             })
@@ -144,11 +172,11 @@ const productsSlice = createSlice({
             })
             .addCase(updateProduct.rejected, (state, action) => {
                 state.loading = false
-                state.error = 'Could not update the product'
+                state.notification = 'Could not update the product'
             })
         }
 })
 
-export const { emptyProductsReducer, sortProductsByPrice } = productsSlice.actions
+export const { emptyProductsReducer, sortProductsByPrice, initializeProductNotifications } = productsSlice.actions
 const productsReducer = productsSlice.reducer
 export default productsReducer

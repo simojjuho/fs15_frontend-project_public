@@ -23,7 +23,6 @@ const HomePage = () => {
     }
     dispatch(getAllProducts())
     dispatch(getAllUsers())
-    console.log(user)
   },[dispatch, user])
   return (
     <Box sx={{position: 'relative',minHeight: '100vh', backgroundColor: 'primary.main' }}>

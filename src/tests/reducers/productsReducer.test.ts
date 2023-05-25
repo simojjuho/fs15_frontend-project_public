@@ -20,7 +20,7 @@ describe('testing productsReducer', () => {
     test('state is initialized and fetching products functions properly', async () => {
         const initializedState = store.getState().productsReducer
         expect(initializedState.loading).toBe(false)
-        expect(initializedState.error).toBeFalsy()
+        expect(initializedState.notification).toBeFalsy()
         expect(initializedState.products).toHaveLength(3)
     })
     //TODO: This needs to be fixed still

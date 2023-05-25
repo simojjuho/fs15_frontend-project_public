@@ -67,6 +67,7 @@ const Header = () => {
             <Link variant='body2' component={RouterLink} to='/' underline="none">
                 <Typography
                     variant='h1'
+                    color={'info.light'}
                 >
                     NETSHOP
                 </Typography>

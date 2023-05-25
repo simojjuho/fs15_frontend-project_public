@@ -68,7 +68,7 @@ const ProductEdit = ({ product, setEdit }: ProductEditProps) => {
             }}
         >
             <Typography variant='h3'>Edit product</Typography>
-            {productsReducer.notification && !productsReducer.isEditSuccess && <Notification message={productsReducer.notification} severity={'error'}/>}
+            {productsReducer.notification && !productsReducer.isEditSuccess && <Notification message={productsReducer.notification} severity={'error'} type='product'/>}
             <TextField color='secondary' type='text' {...titleInput} label={'Title'}/>
             <TextField color='secondary' type='number' {...priceInput} label={'Price'}/>
             <TextField color='secondary' type='number' {...categoryInput} label={'Category'}/>

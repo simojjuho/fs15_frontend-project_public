@@ -12,14 +12,15 @@ const AdminPage = () => {
         navigate('/')
     }
     return (
-        <Container maxWidth='md' id='adminPage' sx={{
+        <Container maxWidth='lg' id='adminPage' sx={{
             padding: '8em 0'
         }}>
             <Typography variant='h2'>Admin Dashboard</Typography>
             <Box sx={{
                 marginTop: '3em'
             }}>
-                <Typography variant='h3'>Add / edit products</Typography>
+                {}
+                <Typography sx={{marginBottom: '3em'}} variant='h3'>Add / edit products</Typography>
                 <ProductsListDashboard />
                 <Typography variant='h3'>Add / edit users</Typography>
                 <UserList />

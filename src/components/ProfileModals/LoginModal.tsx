@@ -30,7 +30,7 @@ const LoginModal = () => {
         <Dialog open={isOpen} onClose={() => dispatch(setLoginVisibility())}>
             <DialogTitle>Log in</DialogTitle>
             { userReducer.notification
-                ? <Notification message={'Login failed. Check your email and/or password!'} severity={'error'} />
+                ? <Notification message={'Login failed. Check your email and/or password!'} severity={'error'} type='user' />
                 : null
             }
             {userReducer.user ? <LoginSuccess /> : <LoginTextfields emailInput={emailInput} passwordInput={passwordInput} handleLogin={handleLogin}/>}

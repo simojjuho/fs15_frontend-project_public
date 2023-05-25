@@ -36,6 +36,10 @@ const customTheme = (mode: PaletteMode) => ({
             },
             secondary: {
                 main: '#074a41',
+            },
+            info: {
+                main: '#FEFEFE',
+                dark: '#e1dcd7'
             }
         }
         : {
@@ -44,8 +48,13 @@ const customTheme = (mode: PaletteMode) => ({
                 main: '#121212',
         },
             secondary: {
-                main: '#0b1b2B',
+                main: '#090909',
 
+            },
+            info: {
+                main: '#335555',
+                
+                
             }
         })
     },

@@ -9,7 +9,7 @@ const LoginSuccess = () => {
   return (
     <>
       <DialogContent>
-        <Notification message={'Login succesful'} severity={'success'}/>
+        <Notification message={'Login succesful'} severity={'success'} type='user'/>
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' color='secondary' onClick={() => dispatch(setLoginVisibility())}>Close</Button>

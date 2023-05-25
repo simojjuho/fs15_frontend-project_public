@@ -76,7 +76,7 @@ const userSlice = createSlice({
     name: 'userReducer',
     initialState: initialState,
     reducers: {
-        initializeNotification: (state) => {
+        initializeUserNotification: (state) => {
             state.isSuccess = false
             state.notification = ''
         },
@@ -164,4 +164,4 @@ const userSlice = createSlice({
 
 const userReducer = userSlice.reducer
 export default userReducer
-export const { initializeNotification, logoutUser } = userSlice.actions
+export const { initializeUserNotification, logoutUser } = userSlice.actions

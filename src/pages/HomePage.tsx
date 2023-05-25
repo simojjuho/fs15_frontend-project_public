@@ -15,17 +15,19 @@ const HomePage = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(state => state.userReducer.user)
   useEffect(() => {
+    dispatch(getAllProducts())
+  }, [])
+  useEffect(() => {
     if(!user) {
       const token = window.localStorage.getItem('token')
       if(token) {
         dispatch(authenticate(token))
       }
     }
-    dispatch(getAllProducts())
     dispatch(getAllUsers())
   },[dispatch, user])
   return (
-    <Box sx={{position: 'relative',minHeight: '100vh', backgroundColor: 'primary.main' }}>
+    <Box sx={{position: 'relative',minHeight: '100vh', backgroundColor: 'info.main' }}>
       <Header />
       <LoginModal />
       <RegisterModal />

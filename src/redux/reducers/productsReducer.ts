@@ -11,11 +11,13 @@ const initialState: {
     loading: boolean,
     notification: string,
     isEditSuccess: boolean
+    isCreateSuccess: boolean
     products: Product[]
 } = {
     loading: false,
     notification: '',
     isEditSuccess: false,
+    isCreateSuccess: false,
     products: []
 }
 export const getAllProducts = createAsyncThunk(
@@ -98,6 +100,7 @@ const productsSlice = createSlice({
             return {
                 ...state,
                 isEditSuccess: false,
+                isCreateSuccess: false,
                 notification: ''
             }
         }
@@ -124,6 +127,7 @@ const productsSlice = createSlice({
                     state.notification = action.payload.message
                 } else {
                     state.products.push(action.payload)
+                    state.isCreateSuccess = true
                 }
                 state.loading = false
             })
@@ -138,7 +142,7 @@ const productsSlice = createSlice({
                 if(action.payload instanceof AxiosError) {
                     state.notification = action.payload.message
                 } else {
-                    const { result, id} = action.payload
+                    const { result, id } = action.payload
                     if (result) {
                         state.products = state.products.filter(item => item.id !== id)
                     } else {

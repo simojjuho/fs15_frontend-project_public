@@ -14,7 +14,7 @@ const ProductOnGrid = ({product}: ProductOnGridProps) => {
         return (
         <Paper sx={{
             padding: '0.2em',
-            backgroundColor: 'primary.dark'
+            backgroundColor: 'info.dark'
             }}>
             <Link aria-label={`Link to product page: ${product.title}`} color={'secondary.light'} sx={{
                 textDecoration: 'none'
@@ -23,11 +23,11 @@ const ProductOnGrid = ({product}: ProductOnGridProps) => {
                     background: `url(${product.images[0]}) center `,
                     height: '100px'
                 }}></Box>    
-                <Typography variant='h3'>
+                <Typography color={'secondary.dark'} variant='h3'>
                     {product.title}
                 </Typography>
             </Link><br />
-            {product.price} €<br />
+            <Typography sx={{fontSize: 22}}>{product.price} €</Typography><br />
             <ProductAmountUpdate product={product} />
        </Paper>)
     },[product])

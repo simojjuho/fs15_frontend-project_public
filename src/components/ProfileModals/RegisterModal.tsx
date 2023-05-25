@@ -7,7 +7,7 @@ import useAppDispatch from '../../hooks/useAppDispatch'
 import { setRegistrationVisibility } from '../../redux/reducers/modalReducer'
 import registrationFormSchema, { RegistrationFormData } from '../../validation/registrationFormSchema'
 import NewUser from '../../types/NewUser';
-import { registerUser, initializeNotification } from '../../redux/reducers/userReducer';
+import { registerUser, initializeUserNotification } from '../../redux/reducers/userReducer';
 import { useEffect  } from 'react';
 import Notification from '../Notification';
 
@@ -27,7 +27,7 @@ const RegisterModal = () => {
     })
     useEffect(() => {
         reset()
-        dispatch(initializeNotification())
+        dispatch(initializeUserNotification())
     }, [isOpen, reset, dispatch])
     const onSubmit = async (data: RegistrationFormData) => {
         const avatar = data.avatar ? data.avatar : 'https://i.pravatar.cc/300'
@@ -49,9 +49,9 @@ const RegisterModal = () => {
         <Dialog open={isOpen} onClose={handleClose} maxWidth='sm'>
             <DialogTitle>Sign up</DialogTitle>
             {users.isSuccess
-                ? <Notification message={'Profile created succesfully! You can now sign in using your login information'} severity={'success'}/> 
+                ? <Notification message={'Profile created succesfully! You can now sign in using your login information'} severity={'success'} type='user'/> 
                 : users.notification
-                ? <Notification message={users.notification} severity={'error'}/>
+                ? <Notification message={users.notification} severity={'error'} type='user'/>
                 : null}
             <DialogContent className='modalForm'>
                 <Controller 

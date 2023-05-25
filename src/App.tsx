@@ -14,6 +14,7 @@ import './style/style.scss'
 import customTheme from './themes/globalTheme'
 import ColorThemeContext from './utils/ColorThemeContext'
 import AdminPage from './pages/AdminPage'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 const router = createBrowserRouter([
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
         element: <SingleProductPage />
       },
       {
-        path: 'users/:id',
+        path: 'users/profile',
         element: <UserProfilePage />
       },
       {
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'admin-dashboard',
-        element: <AdminPage />
+        element: <ProtectedRoute Component={AdminPage}/>
       }
     ]
   }

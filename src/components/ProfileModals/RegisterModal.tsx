@@ -10,18 +10,20 @@ import NewUser from '../../types/NewUser';
 import { registerUser, initializeUserNotification } from '../../redux/reducers/userReducer';
 import { useEffect  } from 'react';
 import Notification from '../Notification';
+import useFileInput from '../../hooks/useFileInput';
+import fileUploadService from '../../utils/fileUploadService';
 
 const RegisterModal = () => {
     const isOpen = useAppSelector(state => state.modalReducer.registrationModal)
     const dispatch = useAppDispatch()
     const users = useAppSelector(state => state.userReducer)
+    const fileInput = useFileInput()
     const { handleSubmit, control, formState: { errors }, reset } = useForm<RegistrationFormData>({
         defaultValues: {
             name: '',
             email: '',
             password: '',
             repeat: '',
-            avatar: ''
         },
         resolver: yupResolver(registrationFormSchema)
     })
@@ -30,20 +32,39 @@ const RegisterModal = () => {
         dispatch(initializeUserNotification())
     }, [isOpen, reset, dispatch])
     const onSubmit = async (data: RegistrationFormData) => {
-        const avatar = data.avatar ? data.avatar : 'https://i.pravatar.cc/300'
+        const images: {file: File}[] = []
+        if (fileInput.file) {
+            for (let i = 0; i < fileInput.file.length; i++) {
+                images.push({file: fileInput.file[i]})
+            }
+        }
+        const location = await fileUploadService(images)
         const newUser: NewUser = {
             name: data.name,
             email: data.email,
             password: data.password,
-            avatar: avatar
+            avatar: location[0]
         }
         dispatch(registerUser(newUser))
+        console.log(newUser)
         setTimeout(() => {
             dispatch(setRegistrationVisibility())
         }, 6000)
     }
     const handleClose = () => {
         dispatch(setRegistrationVisibility())
+    }
+    const iterateFileList = () => {
+        if (fileInput.file) {
+            let  fileNames : {name: string, size: number}[] = []
+            for (let i = 0; i < fileInput.file.length; i++) {
+                fileNames.push({name: fileInput.file[i].name, size: fileInput.file[i].size})
+            }
+            return fileNames
+        }
+    }
+    const handleRemoveClick = () => {
+        fileInput.setFile(undefined)
     }
     return (
         <Dialog open={isOpen} onClose={handleClose} maxWidth='sm'>
@@ -53,7 +74,7 @@ const RegisterModal = () => {
                 : users.notification
                 ? <Notification message={users.notification} severity={'error'} type='user'/>
                 : null}
-            <DialogContent className='modalForm'>
+            <DialogContent className='modalForm'  sx={{ display: 'flex', flexDirection: 'column', gap: 1}}>
                 <Controller 
                     name="name"
                     control={control}
@@ -87,6 +108,8 @@ const RegisterModal = () => {
                     render={({ field: {onChange} }) => 
                         <TextField
                             onChange={onChange}
+                            error={errors.password?.message !== undefined}
+                            helperText={errors.password?.message}
                             placeholder='Your password'
                             label={'Password'} 
                             type='password'
@@ -101,6 +124,8 @@ const RegisterModal = () => {
                     render={({ field: {onChange} }) => 
                         <TextField
                             onChange={onChange}
+                            error={errors.repeat?.message !== undefined}
+                            helperText={errors.repeat?.message}
                             placeholder='Your password again'
                             label={'Repeat password'}
                             type='password' 
@@ -108,23 +133,31 @@ const RegisterModal = () => {
                             className='formInput'
                         />}           
                 /> 
-                <Controller 
-                    name="avatar"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: {onChange} }) => 
-                        <TextField
-                            onChange={onChange}
-                            placeholder='Your avatar address'
-                            label={'Avatar'} 
-                            color='secondary'
-                            className='formInput'
-                        />}           
-                />
+                {iterateFileList() &&<ul>
+                File to upload
+                { iterateFileList()?.map(item =>
+                    <li key={item.size}>
+                        {item.name} 
+                    </li>)}
+                </ul>}
+                {iterateFileList() && <Button onClick={handleRemoveClick} variant='outlined' color='secondary'>Remove File</Button>}
+                <Button
+                    variant="outlined"
+                    color='secondary'
+                    component="label"
+                    className='formInput'
+                    >
+                    Upload File
+                    <input
+                        type="file"
+                        hidden
+                        onChange={e => fileInput.onChange(e)}
+                    />
+                </Button>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleSubmit(onSubmit)} color='secondary' variant='outlined'>Sign up</Button>
-                <Button onClick={() => dispatch(setRegistrationVisibility())} color='secondary' variant='outlined'>Cancel</Button>
+                <Button onClick={handleClose} color='secondary' variant='outlined'>Cancel</Button>
             </DialogActions>
         </Dialog>
   )

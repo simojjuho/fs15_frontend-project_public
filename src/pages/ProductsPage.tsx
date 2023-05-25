@@ -32,7 +32,6 @@ const ProductsPage = () => {
   const filterFunc = (filter: string, products: Product[]): Product[] => {
     return products.filter(item => item.title.toLowerCase().includes(filter.toLowerCase()))
   }
-  
   const searchDebounce = useDebounce<Product>(filterFunc, productsOfCategory)
   useEffect(() => {
     setPage(1)
